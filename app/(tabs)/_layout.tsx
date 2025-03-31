@@ -7,6 +7,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { FaBicycle, FaHome } from 'react-icons/fa';
 
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
