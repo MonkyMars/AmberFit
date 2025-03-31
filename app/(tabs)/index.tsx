@@ -2,7 +2,8 @@ import { ScrollView, Pressable, View } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { FaFire, FaClock, FaHeart, FaWalking } from "react-icons/fa";
+import { FaFire, FaClock, FaHeart, FaWalking, FaBicycle } from "react-icons/fa";
+import { FaBowlFood } from "react-icons/fa6";
 import { RiFootprintFill } from "react-icons/ri";
 import Title from "@/components/Title";
 import LogCard from "@/components/LogCard";
@@ -11,14 +12,14 @@ import TrackerCard from "@/components/TrackerCard";
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const themedViewStyling =
-    "px-6 py-10 items-center bg-amber-50 dark:bg-amber-900/20 rounded-3xl mx-4 mt-4 shadow-sm";
+    "px-6 py-10 items-center rounded-3xl mx-4 mt-4 shadow-sm";
   return (
     <ScrollView className="flex-1">
       {/* Hero Section */}
       <ThemedView className={themedViewStyling}>
-        <ThemedView className="bg-amber-100 dark:bg-amber-800/40 p-3 rounded-full mb-4">
+        <ThemedView className="p-3 rounded-full mb-4">
           <FaFire
-            size={24}
+            size={40}
             color={colorScheme === "dark" ? "#fbbf24" : "#f59e0b"}
           />
         </ThemedView>
@@ -44,7 +45,15 @@ export default function HomeScreen() {
           icon={FaHeart}
           className="flex items-center justify-center gap-x-2 py-1 text-4xl font-extrabold text-center bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent dark:from-amber-400 dark:to-amber-200"
         />
-        <ThemedView className="flex-row justify-between">
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToAlignment="center"
+          decelerationRate="fast"
+          className="flex-row mt-4 w-full h-full items-center justify-center"
+          snapToInterval={350}
+          contentContainerStyle={{ paddingRight: 50, paddingLeft: 50 }}
+        >
           <TrackerCard
             icon={FaFire}
             progress="345"
@@ -63,7 +72,7 @@ export default function HomeScreen() {
             unit="Minutes"
             color="violet"
           />
-        </ThemedView>
+        </ScrollView>
         <ThemedText className="text-sm text-gray-500 dark:text-gray-400 mt-4 text-center">
           Ps, Ik ben zo trots op je!
         </ThemedText>
@@ -84,8 +93,8 @@ export default function HomeScreen() {
           className="flex-row mt-4 w-full h-full"
           contentContainerStyle={{ paddingRight: 20, paddingLeft: 20 }}
         >
-          <LogCard icon={FaWalking} title="Walking" color="blue" />
-          <LogCard icon={FaClock} title="Running" color="cyan" />
+          <LogCard icon={FaBicycle} title="Biking" color="blue" />
+          <LogCard icon={FaBowlFood} title="Calories" color="cyan" />
           <LogCard icon={FaFire} title="Cycling" color="violet" />
         </ScrollView>
       </ThemedView>

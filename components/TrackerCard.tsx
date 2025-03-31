@@ -1,6 +1,8 @@
 import React from "react";
+import { useColorScheme, Pressable } from "react-native";
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from "./ThemedText";
+import tw from "twrnc";
 
 interface TrackerCardProps {
   icon: React.ElementType;
@@ -10,12 +12,10 @@ interface TrackerCardProps {
   color: "blue" | "orange" | "violet";
 }
 
-const colors: {
-  [key: string]: string;
-} = {
-  blue: "#3b82f6",
-  violet: "#8b5cf6",
-  orange: "#f97316",
+const colors = {
+  blue: { light: "#3b82f6", dark: "#60a5fa", bg: { light: "#eff6ff", dark: "#1e3a8a" } },
+  violet: { light: "#8b5cf6", dark: "#a78bfa", bg: { light: "#f5f3ff", dark: "#2e1065" } },
+  orange: { light: "#f97316", dark: "#fb923c", bg: { light: "#fff7ed", dark: "#7c2d12" } },
 };
 
 const TrackerCard = ({
@@ -25,17 +25,39 @@ const TrackerCard = ({
   color,
   progress,
 }: TrackerCardProps) => {
-  return (
-    <ThemedView className="bg-gray-100 dark:bg-gray-800 p-4 rounded-2xl flex-1 mr-3 items-center shadow-sm">
-      <ThemedView className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-full mb-2">
-        <Icon size={28} color={colors[color]}  />
+  const scheme = useColorScheme();
+  const isDark = scheme === "dark";
+  const iconColor = isDark ? colors[color].dark : colors[color].light;
+  const bgColor = isDark ? colors[color].bg.dark : colors[color].bg.light;
+
+  const CardContent = () => (
+    <ThemedView style={tw`p-5 rounded-3xl flex-1 items-center shadow-lg`}>
+      <ThemedView style={tw`p-4 rounded-2xl mb-3 ${isDark ? 'bg-white/10' : 'bg-white/50'}`}>
+        <Icon size={32} color={iconColor} />
       </ThemedView>
-      <ThemedText className="text-2xl font-extrabold mt-2">
+      <ThemedText style={tw`text-3xl font-bold my-1`}>
         {progress}
       </ThemedText>
-      <ThemedText className="text-gray-500 dark:text-gray-400 text-sm">
+      <ThemedText style={tw`text-sm font-medium opacity-80`}>
         {unit}
       </ThemedText>
+    </ThemedView>
+  );
+
+  if (onPress) {
+    return (
+      <Pressable 
+        onPress={onPress}
+        style={tw`flex-1 mx-1.5`}
+      >
+        <CardContent />
+      </Pressable>
+    );
+  }
+
+  return (
+    <ThemedView style={tw`flex-1 mx-1.5`}>
+      <CardContent />
     </ThemedView>
   );
 };

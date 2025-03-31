@@ -1,43 +1,41 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-import { HapticTab } from '@/components/HapticTab';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { FaBicycle, FaHome } from 'react-icons/fa';
+import { Tabs } from "expo-router";
+import { FaHome, FaBicycle, FaClipboardCheck } from "react-icons/fa";
+import { useColorScheme } from "react-native";
+import tw from "twrnc";
 
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function Layout() {
+  const isDark = useColorScheme() === "dark";
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarStyle: tw`${isDark ? "bg-black" : "bg-white"} h-auto shadow-lg border-t border-[rgba(255,255,255,0.2)] dark:border-gray-700`,
+        tabBarActiveTintColor: "#f5a00d",
+        tabBarInactiveTintColor: isDark ? "#9ca3af" : "#6b7280",
+        tabBarLabelStyle: tw`text-sm font-semibold tracking-wide`,
+        tabBarIconStyle: { marginBottom: -2 },
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: "Home",
           tabBarIcon: ({ color }) => <FaHome size={28} color={color} />,
         }}
       />
       <Tabs.Screen
         name="exercise"
         options={{
-          title: 'Exercise',
+          title: "Exercise",
           tabBarIcon: ({ color }) => <FaBicycle size={28} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="logs"
+        options={{
+          title: "Logs",
+          tabBarIcon: ({ color }) => <FaClipboardCheck size={22} color={color} />,
         }}
       />
     </Tabs>
